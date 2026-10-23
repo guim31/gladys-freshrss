@@ -10,6 +10,8 @@ the notes of the version's GitHub Release.
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-10-23
+
 ### Added
 
 - FreshRSS in Gladys, over its Google Reader compatible API and an API
@@ -22,3 +24,6 @@ the notes of the version's GitHub Release.
 - **FreshRSS** dashboard widget: unread count, newest unread articles, Refresh
   and Mark as read buttons.
 - Texts and documentation in English, French, German and Spanish.
+
+[Unreleased]: https://github.com/guim31/gladys-freshrss/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/guim31/gladys-freshrss/releases/tag/v1.0.0
