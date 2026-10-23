@@ -1,0 +1,58 @@
+{
+  "status": 200,
+  "body": {
+    "max": 12,
+    "unreadcounts": [
+      {
+        "id": "feed/4",
+        "count": 0,
+        "newestItemTimestampUsec": "0"
+      },
+      {
+        "id": "feed/3",
+        "count": 1,
+        "newestItemTimestampUsec": "1792796929172922"
+      },
+      {
+        "id": "user/-/label/Actualités",
+        "count": 1,
+        "newestItemTimestampUsec": "1792796929172922"
+      },
+      {
+        "id": "feed/5",
+        "count": 0,
+        "newestItemTimestampUsec": "1792797061389826"
+      },
+      {
+        "id": "user/-/label/Maison & Jardin",
+        "count": 0,
+        "newestItemTimestampUsec": "1792797061389826"
+      },
+      {
+        "id": "feed/2",
+        "count": 1,
+        "newestItemTimestampUsec": "1792796929172923"
+      },
+      {
+        "id": "user/-/label/Tech",
+        "count": 1,
+        "newestItemTimestampUsec": "1792796929172923"
+      },
+      {
+        "id": "feed/1",
+        "count": 10,
+        "newestItemTimestampUsec": "1792796917928986"
+      },
+      {
+        "id": "user/-/label/Uncategorized",
+        "count": 10,
+        "newestItemTimestampUsec": "1792796917928986"
+      },
+      {
+        "id": "user/-/state/com.google/reading-list",
+        "count": 12,
+        "newestItemTimestampUsec": "1792797061389826"
+      }
+    ]
+  }
+}

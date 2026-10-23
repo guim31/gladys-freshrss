@@ -1,0 +1,77 @@
+{
+  "status": 200,
+  "body": {
+    "subscriptions": [
+      {
+        "id": "feed/4",
+        "title": "Broken",
+        "categories": [
+          {
+            "id": "user/-/label/Actualités",
+            "label": "Actualités"
+          }
+        ],
+        "url": "http://feeds.example.org/missing.xml",
+        "htmlUrl": "",
+        "iconUrl": "http://rss.example.org/f.php?h=108fbe7f",
+        "frss:priority": "main"
+      },
+      {
+        "id": "feed/3",
+        "title": "Le Journal",
+        "categories": [
+          {
+            "id": "user/-/label/Actualités",
+            "label": "Actualités"
+          }
+        ],
+        "url": "http://feeds.example.org/news.xml",
+        "htmlUrl": "http://journal.example.org/",
+        "iconUrl": "http://rss.example.org/f.php?h=37d51227",
+        "frss:priority": "main"
+      },
+      {
+        "id": "feed/5",
+        "title": "Maison ＆ Jardin",
+        "categories": [
+          {
+            "id": "user/-/label/Maison & Jardin",
+            "label": "Maison & Jardin"
+          }
+        ],
+        "url": "http://feeds.example.org/home.xml",
+        "htmlUrl": "https://home.example.org/",
+        "iconUrl": "http://rss.example.org/f.php?h=5fcd563d",
+        "frss:priority": "main"
+      },
+      {
+        "id": "feed/2",
+        "title": "Tech News",
+        "categories": [
+          {
+            "id": "user/-/label/Tech",
+            "label": "Tech"
+          }
+        ],
+        "url": "http://feeds.example.org/tech.xml?key=s3cr3t",
+        "htmlUrl": "https://tech.example.org/",
+        "iconUrl": "http://rss.example.org/f.php?h=73be7513",
+        "frss:priority": "main"
+      },
+      {
+        "id": "feed/1",
+        "title": "FreshRSS releases",
+        "categories": [
+          {
+            "id": "user/-/label/Uncategorized",
+            "label": "Uncategorized"
+          }
+        ],
+        "url": "https://github.com/FreshRSS/FreshRSS/releases.atom",
+        "htmlUrl": "https://github.com/FreshRSS/FreshRSS/",
+        "iconUrl": "http://rss.example.org/f.php?h=33dfe391",
+        "frss:priority": "main"
+      }
+    ]
+  }
+}

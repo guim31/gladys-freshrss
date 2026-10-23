@@ -1,0 +1,9 @@
+{
+  "status": 200,
+  "body": {
+    "userId": "alice",
+    "userName": "alice",
+    "userProfileId": "alice",
+    "userEmail": ""
+  }
+}

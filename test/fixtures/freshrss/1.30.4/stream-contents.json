@@ -1,0 +1,443 @@
+{
+  "status": 200,
+  "body": {
+    "id": "user/-/state/com.google/reading-list",
+    "updated": 1792797082,
+    "items": [
+      {
+        "id": "tag:google.com,2005:reader/item/00065e8a17ff9e02",
+        "crawlTimeMsec": "1792797061389",
+        "timestampUsec": "1792797061389826",
+        "published": 1792663200,
+        "title": "Tondre en octobre ?",
+        "canonical": [
+          {
+            "href": "https://home.example.org/tondre"
+          }
+        ],
+        "alternate": [
+          {
+            "href": "https://home.example.org/tondre"
+          }
+        ],
+        "categories": [
+          "user/-/state/com.google/reading-list",
+          "user/-/label/Maison & Jardin",
+          "user/-/state/org.freshrss/main",
+          "user/-/state/com.google/read"
+        ],
+        "origin": {
+          "streamId": "feed/5",
+          "htmlUrl": "https://home.example.org/",
+          "title": "Maison ＆ Jardin"
+        },
+        "summary": {
+          "content": "<p>Oui &amp; non</p>"
+        }
+      },
+      {
+        "id": "tag:google.com,2005:reader/item/00065e8a101e25bb",
+        "crawlTimeMsec": "1792796929172",
+        "timestampUsec": "1792796929172923",
+        "published": 1792825200,
+        "title": "Zigbee 4.0 is out",
+        "canonical": [
+          {
+            "href": "https://tech.example.org/zigbee-4"
+          }
+        ],
+        "alternate": [
+          {
+            "href": "https://tech.example.org/zigbee-4"
+          }
+        ],
+        "categories": [
+          "user/-/state/com.google/reading-list",
+          "user/-/label/Tech",
+          "user/-/state/org.freshrss/main",
+          "user/-/state/com.google/read"
+        ],
+        "origin": {
+          "streamId": "feed/2",
+          "htmlUrl": "https://tech.example.org/",
+          "title": "Tech News"
+        },
+        "summary": {
+          "content": "Zigbee &amp; friends &lt;b&gt;bold&lt;/b&gt;"
+        },
+        "author": "Alice"
+      },
+      {
+        "id": "tag:google.com,2005:reader/item/00065e8a101e25ba",
+        "crawlTimeMsec": "1792796929172",
+        "timestampUsec": "1792796929172922",
+        "published": 1792749600,
+        "title": "Météo : orages",
+        "canonical": [
+          {
+            "href": "http://journal.example.org/orages"
+          }
+        ],
+        "alternate": [
+          {
+            "href": "http://journal.example.org/orages"
+          }
+        ],
+        "categories": [
+          "user/-/state/com.google/reading-list",
+          "user/-/label/Actualités",
+          "user/-/state/org.freshrss/main"
+        ],
+        "origin": {
+          "streamId": "feed/3",
+          "htmlUrl": "http://journal.example.org/",
+          "title": "Le Journal"
+        },
+        "summary": {
+          "content": ""
+        }
+      },
+      {
+        "id": "tag:google.com,2005:reader/item/00065e8a101e25b9",
+        "crawlTimeMsec": "1792796929172",
+        "timestampUsec": "1792796929172921",
+        "published": 1792738800,
+        "title": "Gladys 5.2 released",
+        "canonical": [
+          {
+            "href": "https://tech.example.org/gladys-52"
+          }
+        ],
+        "alternate": [
+          {
+            "href": "https://tech.example.org/gladys-52"
+          }
+        ],
+        "categories": [
+          "user/-/state/com.google/reading-list",
+          "user/-/label/Tech",
+          "user/-/state/org.freshrss/main"
+        ],
+        "origin": {
+          "streamId": "feed/2",
+          "htmlUrl": "https://tech.example.org/",
+          "title": "Tech News"
+        },
+        "summary": {
+          "content": "<p>Hello <em>world</em></p>"
+        },
+        "author": "Bob"
+      },
+      {
+        "id": "tag:google.com,2005:reader/item/00065e8a0f72941a",
+        "crawlTimeMsec": "1792796917928",
+        "timestampUsec": "1792796917928986",
+        "published": 1792615547,
+        "title": "FreshRSS 1.30.4",
+        "canonical": [
+          {
+            "href": "https://github.com/FreshRSS/FreshRSS/releases/tag/1.30.4"
+          }
+        ],
+        "alternate": [
+          {
+            "href": "https://github.com/FreshRSS/FreshRSS/releases/tag/1.30.4"
+          }
+        ],
+        "categories": [
+          "user/-/state/com.google/reading-list",
+          "user/-/label/Uncategorized",
+          "user/-/state/org.freshrss/main"
+        ],
+        "origin": {
+          "streamId": "feed/1",
+          "htmlUrl": "https://github.com/FreshRSS/FreshRSS/",
+          "title": "FreshRSS releases"
+        },
+        "summary": {
+          "content": "<ul>\n<li><a href=\"https://github.com/FreshRSS/FreshRSS/milestones/1.30.4\">Milestone</a></li>\n</ul>\n<p>This is a fourth security release in the continuation of <a href=\"https://github.com/FreshRSS/FreshRSS/releases/tag/1.30.3\">1.30.x</a>, mostly to address some severe PHP vulnerabilities and update our official alternative Docker images (Alpine) (our default Docker images based on Debian were alrea…"
+        },
+        "author": "Alkarex"
+      },
+      {
+        "id": "tag:google.com,2005:reader/item/00065e8a0f729419",
+        "crawlTimeMsec": "1792796917928",
+        "timestampUsec": "1792796917928985",
+        "published": 1792593001,
+        "title": "FreshRSS 1.30.3",
+        "canonical": [
+          {
+            "href": "https://github.com/FreshRSS/FreshRSS/releases/tag/1.30.3"
+          }
+        ],
+        "alternate": [
+          {
+            "href": "https://github.com/FreshRSS/FreshRSS/releases/tag/1.30.3"
+          }
+        ],
+        "categories": [
+          "user/-/state/com.google/reading-list",
+          "user/-/label/Uncategorized",
+          "user/-/state/org.freshrss/main"
+        ],
+        "origin": {
+          "streamId": "feed/1",
+          "htmlUrl": "https://github.com/FreshRSS/FreshRSS/",
+          "title": "FreshRSS releases"
+        },
+        "summary": {
+          "content": "<ul>\n<li><a href=\"https://github.com/FreshRSS/FreshRSS/milestones/1.30.3\">Milestone</a></li>\n</ul>\n<p>This is a third security release in the continuation of <a href=\"https://github.com/FreshRSS/FreshRSS/releases/tag/1.30.2\">1.30.x</a>, mostly to address some severe PHP vulnerabilities and update our official default Docker images (Debian) (but not our alternative Alpine images yet, which are dela…"
+        },
+        "author": "Alkarex"
+      },
+      {
+        "id": "tag:google.com,2005:reader/item/00065e8a0f729418",
+        "crawlTimeMsec": "1792796917928",
+        "timestampUsec": "1792796917928984",
+        "published": 1792443469,
+        "title": "FreshRSS 1.30.2",
+        "canonical": [
+          {
+            "href": "https://github.com/FreshRSS/FreshRSS/releases/tag/1.30.2"
+          }
+        ],
+        "alternate": [
+          {
+            "href": "https://github.com/FreshRSS/FreshRSS/releases/tag/1.30.2"
+          }
+        ],
+        "categories": [
+          "user/-/state/com.google/reading-list",
+          "user/-/label/Uncategorized",
+          "user/-/state/org.freshrss/main"
+        ],
+        "origin": {
+          "streamId": "feed/1",
+          "htmlUrl": "https://github.com/FreshRSS/FreshRSS/",
+          "title": "FreshRSS releases"
+        },
+        "summary": {
+          "content": "<ul>\n<li><a href=\"https://github.com/FreshRSS/FreshRSS/milestones/1.30.2\">Milestone</a></li>\n</ul>\n<p>This is a second security and bug-fixing release in the continuation of <a href=\"https://github.com/FreshRSS/FreshRSS/releases/tag/1.30.1\">1.30.x</a>.</p>\n<p>Note that our rolling-release channel (<em>edge</em>) is recommended for faster security patches.</p>\n<p>Bug fixes highlights 🐛:</p>\n<ul>\n<…"
+        },
+        "author": "Alkarex"
+      },
+      {
+        "id": "tag:google.com,2005:reader/item/00065e8a0f729417",
+        "crawlTimeMsec": "1792796917928",
+        "timestampUsec": "1792796917928983",
+        "published": 1791229200,
+        "title": "FreshRSS 1.30.1",
+        "canonical": [
+          {
+            "href": "https://github.com/FreshRSS/FreshRSS/releases/tag/1.30.1"
+          }
+        ],
+        "alternate": [
+          {
+            "href": "https://github.com/FreshRSS/FreshRSS/releases/tag/1.30.1"
+          }
+        ],
+        "categories": [
+          "user/-/state/com.google/reading-list",
+          "user/-/label/Uncategorized",
+          "user/-/state/org.freshrss/main"
+        ],
+        "origin": {
+          "streamId": "feed/1",
+          "htmlUrl": "https://github.com/FreshRSS/FreshRSS/",
+          "title": "FreshRSS releases"
+        },
+        "summary": {
+          "content": "<ul>\n<li><a href=\"https://github.com/FreshRSS/FreshRSS/milestones/1.30.1\">Milestone</a></li>\n</ul>\n<p>This is a security-oriented release with several security patches and bug fixes in the continuation of <a href=\"https://github.com/FreshRSS/FreshRSS/releases/tag/1.30.0\">1.30.0</a>.</p>\n<p>Note that our rolling-release channel (<em>edge</em>) is recommended for faster security patches.</p>\n<p>Bug …"
+        },
+        "author": "Alkarex"
+      },
+      {
+        "id": "tag:google.com,2005:reader/item/00065e8a0f729416",
+        "crawlTimeMsec": "1792796917928",
+        "timestampUsec": "1792796917928982",
+        "published": 1788965020,
+        "title": "FreshRSS 1.30.0",
+        "canonical": [
+          {
+            "href": "https://github.com/FreshRSS/FreshRSS/releases/tag/1.30.0"
+          }
+        ],
+        "alternate": [
+          {
+            "href": "https://github.com/FreshRSS/FreshRSS/releases/tag/1.30.0"
+          }
+        ],
+        "categories": [
+          "user/-/state/com.google/reading-list",
+          "user/-/label/Uncategorized",
+          "user/-/state/org.freshrss/main"
+        ],
+        "origin": {
+          "streamId": "feed/1",
+          "htmlUrl": "https://github.com/FreshRSS/FreshRSS/",
+          "title": "FreshRSS releases"
+        },
+        "summary": {
+          "content": "<ul>\n<li><a href=\"https://github.com/FreshRSS/FreshRSS/milestones/1.30.0\">Milestone</a></li>\n</ul>\n<p>This is a security-oriented major release with several important security patches, so users are encouraged to update without delay.</p>\n<p>From this release, we are also making it clear that our rolling-release channel (<em>edge</em>) is recommended for faster security patches.</p>\n<p>Breaking cha…"
+        },
+        "author": "Alkarex"
+      },
+      {
+        "id": "tag:google.com,2005:reader/item/00065e8a0f729415",
+        "crawlTimeMsec": "1792796917928",
+        "timestampUsec": "1792796917928981",
+        "published": 1779299883,
+        "title": "FreshRSS 1.29.1",
+        "canonical": [
+          {
+            "href": "https://github.com/FreshRSS/FreshRSS/releases/tag/1.29.1"
+          }
+        ],
+        "alternate": [
+          {
+            "href": "https://github.com/FreshRSS/FreshRSS/releases/tag/1.29.1"
+          }
+        ],
+        "categories": [
+          "user/-/state/com.google/reading-list",
+          "user/-/label/Uncategorized",
+          "user/-/state/org.freshrss/main"
+        ],
+        "origin": {
+          "streamId": "feed/1",
+          "htmlUrl": "https://github.com/FreshRSS/FreshRSS/",
+          "title": "FreshRSS releases"
+        },
+        "summary": {
+          "content": "<ul>\n<li><a href=\"https://github.com/FreshRSS/FreshRSS/milestones/1.29.1\">Milestone</a></li>\n</ul>\n<p>This is bug-fix release for <a href=\"https://github.com/FreshRSS/FreshRSS/releases/tag/1.29.0\">1.29.0</a>.</p>\n<p>Feature highlights✨:</p>\n<ul>\n<li>Accept <code>.txt</code> import of feed URLs in additional to e.g. OPML</li>\n<li>New CLI for automatic periodic SQLite export with retention</li>\n<li>…"
+        },
+        "author": "Alkarex"
+      },
+      {
+        "id": "tag:google.com,2005:reader/item/00065e8a0f729414",
+        "crawlTimeMsec": "1792796917928",
+        "timestampUsec": "1792796917928980",
+        "published": 1778424218,
+        "title": "FreshRSS 1.29.0",
+        "canonical": [
+          {
+            "href": "https://github.com/FreshRSS/FreshRSS/releases/tag/1.29.0"
+          }
+        ],
+        "alternate": [
+          {
+            "href": "https://github.com/FreshRSS/FreshRSS/releases/tag/1.29.0"
+          }
+        ],
+        "categories": [
+          "user/-/state/com.google/reading-list",
+          "user/-/label/Uncategorized",
+          "user/-/state/org.freshrss/main"
+        ],
+        "origin": {
+          "streamId": "feed/1",
+          "htmlUrl": "https://github.com/FreshRSS/FreshRSS/",
+          "title": "FreshRSS releases"
+        },
+        "summary": {
+          "content": "<ul>\n<li><a href=\"https://github.com/FreshRSS/FreshRSS/milestones/1.29.0\">Milestone</a></li>\n</ul>\n<p>This is a major release.</p>\n<p>Feature highlights✨:</p>\n<ul>\n<li>New sort order preferences at global, category, and feed levels</li>\n<li>Use feed-provided icon</li>\n<li>New option to hide sidebar by default</li>\n<li>Show time since when a feed has problems</li>\n<li>New functions to handle plural…"
+        },
+        "author": "Alkarex"
+      },
+      {
+        "id": "tag:google.com,2005:reader/item/00065e8a0f729413",
+        "crawlTimeMsec": "1792796917928",
+        "timestampUsec": "1792796917928979",
+        "published": 1769365216,
+        "title": "FreshRSS 1.28.1",
+        "canonical": [
+          {
+            "href": "https://github.com/FreshRSS/FreshRSS/releases/tag/1.28.1"
+          }
+        ],
+        "alternate": [
+          {
+            "href": "https://github.com/FreshRSS/FreshRSS/releases/tag/1.28.1"
+          }
+        ],
+        "categories": [
+          "user/-/state/com.google/reading-list",
+          "user/-/label/Uncategorized",
+          "user/-/state/org.freshrss/main"
+        ],
+        "origin": {
+          "streamId": "feed/1",
+          "htmlUrl": "https://github.com/FreshRSS/FreshRSS/",
+          "title": "FreshRSS releases"
+        },
+        "summary": {
+          "content": "<ul>\n<li><a href=\"https://github.com/FreshRSS/FreshRSS/milestones/1.28.1\">Milestone</a></li>\n</ul>\n<p>This is a release focussing on bug fixing, in particular regressions from the release <a href=\"https://github.com/FreshRSS/FreshRSS/releases/tag/1.28.0\">1.28.0</a>.</p>\n<p>Selected new features ✨:</p>\n<ul>\n<li>New customisable message for closed registrations</li>\n<li>Add username in Apache access…"
+        },
+        "author": "Alkarex"
+      },
+      {
+        "id": "tag:google.com,2005:reader/item/00065e8a0f729412",
+        "crawlTimeMsec": "1792796917928",
+        "timestampUsec": "1792796917928978",
+        "published": 1766604443,
+        "title": "FreshRSS 1.28.0",
+        "canonical": [
+          {
+            "href": "https://github.com/FreshRSS/FreshRSS/releases/tag/1.28.0"
+          }
+        ],
+        "alternate": [
+          {
+            "href": "https://github.com/FreshRSS/FreshRSS/releases/tag/1.28.0"
+          }
+        ],
+        "categories": [
+          "user/-/state/com.google/reading-list",
+          "user/-/label/Uncategorized",
+          "user/-/state/org.freshrss/main"
+        ],
+        "origin": {
+          "streamId": "feed/1",
+          "htmlUrl": "https://github.com/FreshRSS/FreshRSS/",
+          "title": "FreshRSS releases"
+        },
+        "summary": {
+          "content": "<ul>\n<li><a href=\"https://github.com/FreshRSS/FreshRSS/milestones/1.28.0\">Milestone</a></li>\n</ul>\n<p>This is a major release, just in time for the holidays 🎄</p>\n<p>Selected new features ✨:</p>\n<ul>\n<li>New sorting and filtering by date of <em>User modified</em>, with corresponding search operator, e.g. <code>userdate:PT1H</code> for the past hour</li>\n<li>New sorting by article length</li>\n<li>…"
+        },
+        "author": "Alkarex"
+      },
+      {
+        "id": "tag:google.com,2005:reader/item/00065e8a0f729411",
+        "crawlTimeMsec": "1792796917928",
+        "timestampUsec": "1792796917928977",
+        "published": 1758978475,
+        "title": "FreshRSS 1.27.1",
+        "canonical": [
+          {
+            "href": "https://github.com/FreshRSS/FreshRSS/releases/tag/1.27.1"
+          }
+        ],
+        "alternate": [
+          {
+            "href": "https://github.com/FreshRSS/FreshRSS/releases/tag/1.27.1"
+          }
+        ],
+        "categories": [
+          "user/-/state/com.google/reading-list",
+          "user/-/label/Uncategorized",
+          "user/-/state/org.freshrss/main"
+        ],
+        "origin": {
+          "streamId": "feed/1",
+          "htmlUrl": "https://github.com/FreshRSS/FreshRSS/",
+          "title": "FreshRSS releases"
+        },
+        "summary": {
+          "content": "<ul>\n<li><a href=\"https://github.com/FreshRSS/FreshRSS/milestones/1.27.1\">Milestone</a></li>\n</ul>\n<p>This is a security-fix and bug-fix release for <a href=\"https://github.com/FreshRSS/FreshRSS/releases/tag/1.27.0\">FreshRSS 1.27.x</a>.</p>\n<p>A few highlights ✨:</p>\n<ul>\n<li>Keep sort and order criteria after marking as read</li>\n<li>Automatic database recovery: skip broken entries during CLI exp…"
+        },
+        "author": "Alkarex"
+      }
+    ]
+  }
+}
