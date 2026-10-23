@@ -116,7 +116,9 @@ test('external ids: user names with an underscore, category keys, feed ids', () 
 
 test('the counters of the recorded answer, by stream', async () => {
   const server = createFreshRss();
-  const counts = await client(server).unreadCounts();
+  const { counts, stocked } = await client(server).unreadCounts();
+  assert.ok(stocked.has('feed/5'), 'a feed whose entries are all read holds entries');
+  assert.ok(!stocked.has('feed/4'), 'the feed never fetched holds none');
   assert.equal(counts['user/-/state/com.google/reading-list'], 12);
   assert.equal(counts['feed/1'], 10);
   assert.equal(counts['user/-/label/Tech'], 1);
@@ -149,6 +151,13 @@ test('errors: refused password, disabled API, not FreshRSS, down, too slow', asy
       });
     });
   await fail(client({ fetch: never }, { timeout: 20 }), 'timeout');
+  // http:// redirected to https://: the POST became a GET without its body.
+  const redirected = async () =>
+    Object.defineProperties(new Response('Bad Request!', { status: 400 }), {
+      redirected: { value: true },
+      url: { value: 'https://192.0.2.40/api/greader.php/accounts/ClientLogin' },
+    });
+  await fail(client({ fetch: redirected }), 'redirect');
 });
 
 test('a write sends the action token; a stale token is replaced once', async () => {

@@ -109,6 +109,8 @@ Lesen werden höchstens 10 Artikel gemeldet.
 - **„FreshRSS antwortet nicht“**: Prüfe Adresse und Port von der
   Gladys-Maschine aus. Hinter einem Reverse Proxy gib die vollständige Adresse
   mit Pfad ein.
+- **„FreshRSS leitet auf eine andere Adresse um“**: FreshRSS antwortet unter
+  einer anderen Adresse, oft derselben mit `https://`: Gib diese ein.
 - **„Diese Adresse antwortet nicht wie FreshRSS“**: Die Adresse führt zu einem
   anderen Dienst oder zu einer Anmeldeseite (ein Authentifizierungs-Proxy vor
   FreshRSS muss `/api/` durchlassen).
@@ -125,7 +127,8 @@ Lesen werden höchstens 10 Artikel gemeldet.
 - Die API von FreshRSS meldet keine Feeds mit Fehler und kann keine
   Aktualisierung der Feeds anstoßen: FreshRSS behält seinen eigenen Takt.
 - Die Filter der Auslöser vergleichen nur exakte Werte: Der Stichwortfilter ist
-  eines der konfigurierten Stichwörter.
+  eines der konfigurierten Stichwörter, geschrieben wie in der Konfiguration
+  (das erste im Titel gefundene).
 - Favoriten, Labels und die Feeds selbst werden nicht aus Gladys verwaltet.
   Höchstens 100 Kategorien und 200 Feeds werden als Geräte angeboten.
 - Die Links des Widgets öffnen nur https-Adressen: Ein Artikel oder ein

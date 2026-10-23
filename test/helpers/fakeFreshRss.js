@@ -104,6 +104,14 @@ export function createFreshRss() {
       add(feed.id, 0);
       add(feed.categories[0].id, 0);
     }
+    const newest = new Map();
+    for (const item of state.items) {
+      for (const id of [item.origin.streamId, labelOf(item), READING_LIST]) {
+        if (BigInt(decId(item)) > BigInt(newest.get(id) ?? 0)) {
+          newest.set(id, decId(item));
+        }
+      }
+    }
     for (const item of state.items.filter((i) => !isRead(i))) {
       add(item.origin.streamId, 1);
       add(labelOf(item), 1);
@@ -115,7 +123,7 @@ export function createFreshRss() {
       unreadcounts: [...counts].map(([id, count]) => ({
         id,
         count,
-        newestItemTimestampUsec: '0',
+        newestItemTimestampUsec: newest.get(id) ?? '0',
       })),
     };
   };

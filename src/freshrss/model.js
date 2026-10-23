@@ -105,7 +105,7 @@ export function summarizeEntry(raw) {
   const url = href(raw?.canonical) || href(raw?.alternate);
   return {
     id: itemId(raw?.id),
-    title: str(raw?.title) || url || '…',
+    title: (str(raw?.title) || url || '…').slice(0, 1000),
     url,
     read: tags.includes(READ_TAG),
     starred: tags.includes(STARRED_TAG),

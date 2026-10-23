@@ -109,6 +109,8 @@ lectura.
 - **«FreshRSS no responde»**: compruebe la dirección y el puerto desde la
   máquina de Gladys. Detrás de un proxy inverso, introduzca la dirección
   completa, ruta incluida.
+- **«FreshRSS redirige a otra dirección»**: FreshRSS responde en otra
+  dirección, a menudo la misma en `https://`: introduzca esa.
 - **«Esta dirección no responde como FreshRSS»**: la dirección lleva a otro
   servicio, o a una página de inicio de sesión (un proxy de autenticación
   delante de FreshRSS debe dejar pasar `/api/`).
@@ -125,7 +127,8 @@ lectura.
 - La API de FreshRSS no indica las fuentes con error y no permite pedir la
   actualización de las fuentes: FreshRSS mantiene su propio ritmo.
 - Los filtros de los disparadores solo comparan valores exactos: el filtro de
-  palabra clave es una de las palabras clave configuradas.
+  palabra clave es una de las palabras clave configuradas, escrita como en la
+  configuración (la primera encontrada en el título).
 - Los favoritos, las etiquetas y las fuentes en sí no se gestionan desde
   Gladys. Se ofrecen como máximo 100 categorías y 200 fuentes como
   dispositivos.

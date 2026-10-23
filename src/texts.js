@@ -26,6 +26,7 @@ export const STATUS_TEXT = {
     unreachable: 'FreshRSS does not answer: check its address and that it is running.',
     error: 'FreshRSS answered with an error: see the logs of the integration.',
     invalid_answer: 'This address does not answer like FreshRSS: check the address and the port.',
+    redirect: 'FreshRSS redirects to another address: enter it as it opens (often https://).',
   },
   fr: {
     none: "Saisissez l'adresse de FreshRSS, un nom d'utilisateur et son mot de passe d'API dans la configuration.",
@@ -41,6 +42,8 @@ export const STATUS_TEXT = {
     unreachable: "FreshRSS ne répond pas : vérifiez son adresse et qu'il est démarré.",
     error: "FreshRSS a répondu par une erreur : consultez les journaux de l'intégration.",
     invalid_answer: "Cette adresse ne répond pas comme FreshRSS : vérifiez l'adresse et le port.",
+    redirect:
+      "FreshRSS redirige vers une autre adresse : saisissez-la telle qu'elle s'ouvre (souvent https://).",
   },
   de: {
     none: 'Gib in der Konfiguration die Adresse von FreshRSS, einen Benutzernamen und sein API-Passwort ein.',
@@ -54,6 +57,8 @@ export const STATUS_TEXT = {
     unreachable: 'FreshRSS antwortet nicht: Prüfe die Adresse und ob es läuft.',
     error: 'FreshRSS hat mit einem Fehler geantwortet: Sieh dir die Logs der Integration an.',
     invalid_answer: 'Diese Adresse antwortet nicht wie FreshRSS: Prüfe Adresse und Port.',
+    redirect:
+      'FreshRSS leitet auf eine andere Adresse um: Gib sie so ein, wie sie sich öffnet (oft https://).',
   },
   es: {
     none: 'Introduzca la dirección de FreshRSS, un nombre de usuario y su contraseña de API en la configuración.',
@@ -69,6 +74,8 @@ export const STATUS_TEXT = {
     unreachable: 'FreshRSS no responde: compruebe su dirección y que esté en marcha.',
     error: 'FreshRSS respondió con un error: consulte los registros de la integración.',
     invalid_answer: 'Esta dirección no responde como FreshRSS: compruebe la dirección y el puerto.',
+    redirect:
+      'FreshRSS redirige a otra dirección: introdúzcala tal como se abre (a menudo https://).',
   },
 };
 

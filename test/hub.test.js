@@ -129,6 +129,25 @@ test('the backlog of a feed added since the previous read is not announced', asy
   );
 });
 
+test('the first batch of a feed added empty is its backlog, not news', async (t) => {
+  const world = await createWorld();
+  t.after(() => world.app.stop());
+  const feed = world.server.addFeed({ title: 'Fetched later' });
+  await world.hub.refresh();
+  for (let i = 0; i < 4; i += 1) {
+    world.server.addEntry({ feedId: feed, title: `Backlog ${i}` });
+  }
+  world.server.addEntry({ feedId: 4, title: 'Broken works again' });
+  await world.hub.refresh();
+  assert.equal(events(world.fake).length, 0);
+  world.server.addEntry({ feedId: feed, title: 'Really new' });
+  await world.hub.refresh();
+  assert.deepEqual(
+    events(world.fake).map((e) => e.data.title),
+    ['Really new'],
+  );
+});
+
 test('a burst announces the ten newest; past a page, the rest is recorded as seen', async (t) => {
   const world = await createWorld();
   t.after(() => world.app.stop());
@@ -204,7 +223,7 @@ test('what was seen survives a restart; another server is a new baseline', async
   assert.equal(store.data.user, USER);
   assert.equal(store.data.server, HOST);
   assert.equal(store.data.lastId, '1792797061389826');
-  assert.deepEqual(store.data.feeds, [4, 3, 5, 2, 1]);
+  assert.deepEqual(store.data.feeds, [3, 5, 2, 1], 'the empty feed 4 is not known yet');
   server.addEntry({ title: 'While stopped' });
   const second = await createWorld({ server, store });
   assert.deepEqual(

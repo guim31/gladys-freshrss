@@ -636,10 +636,10 @@
           "key": "unread",
           "type": "number",
           "label": {
-            "en": "Unread articles in all",
-            "fr": "Articles non lus en tout",
-            "de": "Ungelesene Artikel insgesamt",
-            "es": "Artículos no leídos en total"
+            "en": "Unread articles (of the source, or in all)",
+            "fr": "Articles non lus (de la source, ou en tout)",
+            "de": "Ungelesene Artikel (der Quelle, oder insgesamt)",
+            "es": "Artículos no leídos (de la fuente, o en total)"
           }
         },
         {

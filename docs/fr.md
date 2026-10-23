@@ -111,6 +111,8 @@ sont annoncés par lecture.
 - **« FreshRSS ne répond pas »** : vérifiez l'adresse et le port depuis la
   machine de Gladys. Derrière un proxy inverse, saisissez l'adresse complète,
   chemin compris.
+- **« FreshRSS redirige vers une autre adresse »** : FreshRSS répond sur une
+  autre adresse, souvent la même en `https://` : saisissez celle-ci.
 - **« Cette adresse ne répond pas comme FreshRSS »** : l'adresse mène à un
   autre service, ou à une page de connexion (un proxy d'authentification
   devant FreshRSS doit laisser passer `/api/`).
@@ -128,7 +130,8 @@ sont annoncés par lecture.
 - L'API de FreshRSS n'indique pas les flux en erreur et ne permet pas de
   demander l'actualisation des flux : FreshRSS garde son propre rythme.
 - Les filtres des déclencheurs ne comparent que des valeurs exactes : le filtre
-  mot-clé est un des mots-clés configurés.
+  mot-clé est un des mots-clés configurés, écrit comme dans la configuration
+  (le premier trouvé dans le titre).
 - Les favoris, les étiquettes et les flux eux-mêmes ne se gèrent pas depuis
   Gladys. Au plus 100 catégories et 200 flux sont proposés comme appareils.
 - Les liens du widget n'ouvrent que des adresses https : un article ou un

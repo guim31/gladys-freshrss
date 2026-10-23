@@ -13,7 +13,7 @@ export const MAX_ITEMS = 6;
 export const ACTIONS = { read: 'mark_read', refresh: 'refresh' };
 
 export const TEXT = {
-  read: { en: 'Mark as read', fr: 'Marquer lu', de: 'Als gelesen', es: 'Marcar leído' },
+  read: { en: 'Mark as read', fr: 'Marquer lu', de: 'Als gelesen markieren', es: 'Marcar leído' },
   refresh: { en: 'Refresh', fr: 'Actualiser', de: 'Aktualisieren', es: 'Actualizar' },
   open: {
     en: 'Read the article',

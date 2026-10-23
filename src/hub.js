@@ -247,13 +247,13 @@ export class Hub {
     }
     let user;
     let subscriptions;
-    let counts;
+    let counters;
     let recent;
     let fresh = [];
     try {
       user = this.user ?? (await client.userInfo()).userName;
       const known = this.#known(user);
-      [subscriptions, counts, recent] = await Promise.all([
+      [subscriptions, counters, recent] = await Promise.all([
         client.subscriptions(),
         client.unreadCounts(),
         // The first read only needs the newest id: the baseline.
@@ -269,6 +269,7 @@ export class Hub {
       }
       this.#fail(err);
       await this.publishStates();
+      this.refreshWidget();
       await this.updateConnectionStatus();
       return;
     }
@@ -276,7 +277,7 @@ export class Hub {
       return;
     }
     this.user = user;
-    this.#load(subscriptions, counts);
+    this.#load(subscriptions, counters);
     this.widgetLists.clear();
     this.#recover();
     await this.#update();
@@ -288,7 +289,7 @@ export class Hub {
   }
 
   /** The feeds and categories of a read, with their unread counters. */
-  #load(subscriptions, counts) {
+  #load(subscriptions, { counts, stocked }) {
     const unreadOf = (stream) => counts[stream] ?? 0;
     const user = this.user;
     this.feeds = subscriptions
@@ -300,6 +301,7 @@ export class Hub {
         stream: `feed/${f.id}`,
         device: feedIds(this.gladys, user, f.id).device,
         unread: unreadOf(`feed/${f.id}`),
+        stocked: stocked.has(`feed/${f.id}`),
       }));
     const names = [...new Set(this.feeds.map((f) => f.category).filter(Boolean))];
     this.categories = names.map((name) => {
@@ -375,7 +377,9 @@ export class Hub {
   async #announce(recent, fresh) {
     const user = this.user;
     const known = this.#known(user);
-    const feedIdsNow = this.feeds.map((f) => f.id);
+    // A feed counts as known once it holds entries: the first batch of a feed
+    // added empty (fetched later, or failing at first) is its backlog.
+    const feedIdsNow = this.feeds.filter((f) => f.stocked).map((f) => f.id);
     let lastId = known?.lastId ?? '0';
     for (const id of recent.ids) {
       if (after(id, lastId)) {
@@ -675,6 +679,7 @@ export class Hub {
           unauthorized: 'unauthorized',
           disabled: 'disabled',
           invalid: 'invalid_answer',
+          redirect: 'redirect',
           http: 'error',
           rejected: 'error',
         }[this.failure] ?? 'unreachable'
@@ -752,7 +757,12 @@ export class Hub {
       await this.refresh();
     }
     if (!this.loaded || client !== this.client) {
-      throw this.#commandError(new FreshRssError(this.failure ?? 'unreachable', ''), 'read');
+      const status = this.statusMessage();
+      const detail = status ? (status[this.language] ?? status.en) : '';
+      throw this.#commandError(
+        new FreshRssError(this.failure ?? 'unreachable', `: ${detail}`),
+        'read',
+      );
     }
     return client;
   }

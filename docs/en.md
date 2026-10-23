@@ -101,6 +101,8 @@ another app. At most 10 articles are announced per read.
 - **"FreshRSS does not answer"**: check the address and the port from the
   Gladys machine. Behind a reverse proxy, enter the full address, path
   included.
+- **"FreshRSS redirects to another address"**: FreshRSS answers on another
+  address, often the same one in `https://`: enter that one.
 - **"This address does not answer like FreshRSS"**: the address leads to
   another service, or to a login page (an authentication proxy in front of
   FreshRSS must let `/api/` through).
@@ -116,7 +118,8 @@ another app. At most 10 articles are announced per read.
 - The API of FreshRSS does not tell the feeds in error, and cannot ask for a
   refresh of the feeds: FreshRSS keeps its own schedule.
 - The trigger filters only compare exact values: the keyword filter is one of
-  the configured keywords.
+  the configured keywords, written as in the configuration (the first one
+  found in the title).
 - Starred articles, labels and the feeds themselves are not managed from
   Gladys. At most 100 categories and 200 feeds are offered as devices.
 - The widget links open https addresses only: an article or a FreshRSS on

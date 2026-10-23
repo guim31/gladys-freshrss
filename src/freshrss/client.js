@@ -31,7 +31,7 @@ export const READING_LIST = 'user/-/state/com.google/reading-list';
 
 export class FreshRssError extends Error {
   /**
-   * @param {'unreachable' | 'unauthorized' | 'disabled' | 'timeout' | 'http' | 'invalid' | 'rejected'} kind
+   * @param {'unreachable' | 'unauthorized' | 'disabled' | 'redirect' | 'timeout' | 'http' | 'invalid' | 'rejected'} kind
    * @param {string} message never carries a credential
    * @param {number} [status]
    */
@@ -88,6 +88,11 @@ export class FreshRssClient {
       }
       const cause = err?.cause?.code ?? err?.cause?.message ?? err?.message ?? 'error';
       throw new FreshRssError('unreachable', `FreshRSS unreachable (${cause})`);
+    }
+    if (response.redirected && new URL(response.url).origin !== new URL(this.url).origin) {
+      // fetch turns a redirected POST into a GET and drops Authorization on
+      // another origin: the usual case is http:// redirected to https://.
+      throw new FreshRssError('redirect', `${path}: redirected to another address`);
     }
     if (!response.ok) {
       throw FreshRssClient.#fail(path, response.status, raw);
@@ -212,20 +217,29 @@ export class FreshRssClient {
     return data.subscriptions;
   }
 
-  /** `{ streamId: unread }`: `feed/1`, `user/-/label/<name>`, the reading list. */
+  /**
+   * `counts`: `{ streamId: unread }` (`feed/1`, `user/-/label/<name>`, the
+   * reading list); `stocked`: the streams holding at least one entry, read or
+   * not (`newestItemTimestampUsec` is "0" for a feed never fetched).
+   * @returns {Promise<{ counts: Record<string, number>, stocked: Set<string> }>}
+   */
   async unreadCounts() {
     const data = await this.#json('reader/api/0/unread-count?output=json', 'counters');
     if (!Array.isArray(data?.unreadcounts)) {
       throw new FreshRssError('invalid', 'FreshRSS did not answer its counters');
     }
     const counts = {};
+    const stocked = new Set();
     for (const row of data.unreadcounts) {
       const n = Number(row?.count);
       if (typeof row?.id === 'string' && Number.isInteger(n) && n >= 0) {
         counts[row.id] = n;
+        if (n > 0 || /^[1-9]\d*$/.test(row.newestItemTimestampUsec ?? '')) {
+          stocked.add(row.id);
+        }
       }
     }
-    return counts;
+    return { counts, stocked };
   }
 
   /**
