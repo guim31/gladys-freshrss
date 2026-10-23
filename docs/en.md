@@ -1,61 +1,124 @@
-# Demo Devices Template
+# FreshRSS
 
-This is the user documentation of the integration. Gladys re-hosts this file
-and shows a permanent **Documentation** link to it in the Configuration screen
-(in the user's language, with English as the fallback) — it is when
-configuring that the user needs it most. Keep the short onboarding hints in
-the `section` blocks of the manifest `config_schema`; put the long
-step-by-step (screenshots, troubleshooting…) here.
+Connect Gladys to [FreshRSS](https://freshrss.org), the self-hosted feed
+aggregator: follow your unread articles per category and per feed, react when
+a new article arrives, mark articles as read from your scenes, and see the
+newest unread articles on the dashboard. The integration follows the state of
+your reader (read / unread, the same in all your FreshRSS apps), not the feeds
+themselves.
 
-## What you get
+Tested against a real FreshRSS 1.30.4 (the official Docker image) with test
+feeds. Feedback welcome on the Gladys forum.
 
-Six demo devices show up after installation: a weather station (real data
-from Open-Meteo), a switch, a dimmable light, a smart plug with power
-metering, a motion sensor and a camera.
+## Prerequisites
+
+- Gladys Assistant 5.1 or later.
+- FreshRSS, at home or on a public server, reachable from the Gladys machine.
+- The API of FreshRSS allowed: as an administrator, open **Administration →
+  Authentication** and tick **Allow API access**.
+- An API password for your user: open **Profile → API management**, enter an
+  **API password** and save. It is not your login password; FreshRSS shows the
+  API address on the same page.
 
 ## Configuration
 
 1. Open the **Configuration** tab of the integration.
-2. Set the **latitude** and **longitude** the demo weather station should
-   observe (they default to Paris), and pick your temperature unit.
-   The **refresh interval** sets how often the weather station and the
-   plug's power are read: every 5 minutes by default, every minute at most.
-3. Save: the devices appear in the **Discovery** tab, ready to be added.
+2. In **FreshRSS address**, enter the address you open FreshRSS at, for example
+   `192.168.1.50:8080` (http when no scheme is given) or
+   `https://rss.example.org`. The API address shown by FreshRSS
+   (`…/api/greader.php`) works too.
+3. Enter your **User name** and the **API password**.
+4. Optional: **Read FreshRSS every** (5 minutes by default), and **Keywords to
+   watch**, separated by commas, for the keyword filter of the "New article"
+   trigger.
+5. Click **Test the connection**: it shows the user, the unread articles, the
+   feeds and the categories.
+6. Open the **Discovery** tab and add the devices you want.
 
-The **Prefer the local connection** toggle drives the demo plug: it reports
-the channel it actually uses as a badge (local or cloud), with an orange dot
-when it runs degraded (local refused, cloud fallback).
+## Devices
 
-## Actions
+- **FreshRSS**: _Unread articles_ (everything) and _FreshRSS online_ (0 while
+  FreshRSS does not answer).
+- **One device per category** and **one device per feed** (offered for each of
+  them): their _Unread articles_.
 
-- **Test the weather provider** — performs a live request to Open-Meteo and
-  shows the current temperature and humidity under the button.
-- **Identify a device** — pick one of your devices in the list and it will
-  signal itself (the demo light "blinks" in the logs).
+The values are read every few minutes (the setting above) and right after
+every change made from Gladys. They are kept in the history, for a chart of
+your unread pile. To act above a threshold, use the device trigger of Gladys:
+_Unread articles_ above 50, for instance.
 
-## Scenes
+## Dashboard widget
 
-The integration adds its own cards to the scene editor (Gladys 5.1 or
-later), under the **Integrations** category:
+**FreshRSS**: the number of unread articles, the six newest unread articles
+(feed, date, summary, links to the article and to the feed in FreshRSS when
+they are https), a **Refresh** button that reads FreshRSS again now, and a
+**Mark as read** button, with a confirmation, that marks the listed articles
+as read (only them). Set to a category or a feed device, the widget shows that
+one only.
 
-- **Motion detected** (trigger) — starts the scene when a demo motion sensor
-  sees something move. Optionally pick the sensor and what moved (person,
-  animal); left empty, any detection matches. The following actions can
-  read what moved with `{{triggerEvent.data.target}}`.
-- **Identify a device** (action) — makes the chosen device signal itself.
-  It returns whether the device could signal itself, so the following
-  actions can depend on it.
+## Scene triggers
 
-## Dashboard
+- **New article**: an unread article arrived in FreshRSS. Filters: a category
+  (a category device), a feed (a feed device), a keyword (one of the keywords
+  of the configuration, found in the title, case and accents ignored).
+  Information passed on: title, link, feed, category, author, keyword found,
+  publication date and article id.
 
-Add the **Demo status** widget to a dashboard: it shows the live
-temperature of the weather station and the power of the office plug, the
-connection the plug currently uses (orange when degraded) and the observed
-location. Its **Identify the light** button makes the demo light signal
-itself.
+Nothing fires at the first read after installing the integration, nor for the
+articles already there when a feed is added, nor for articles already read in
+another app. At most 10 articles are announced per read.
+
+## Scene actions
+
+- **Mark FreshRSS articles as read**: every unread article of a category or a
+  feed; pick the FreshRSS device to mark everything. Results: articles marked,
+  category or feed.
+- **Mark articles as read by id**: one or more article ids, typically the
+  article id of the "New article" trigger. Result: articles marked.
+- **Read the unread FreshRSS titles**: the newest unread articles (1 to 10), of
+  everything or of a category or feed, optionally marked as read afterwards.
+  Results: number read, unread articles in all, titles one per line ("Title —
+  Feed"), title, link and feed of the newest one.
+
+## Scene examples
+
+- **Morning briefing**: at 7:30, _Read the unread FreshRSS titles_ (category
+  News, 5 articles, then mark them as read), then send a Telegram message with
+  its _Titles_ result (insert it with the variable picker).
+- **Watch a topic**: with `Gladys` in the keywords, _New article_ with the
+  keyword `Gladys` → send a message with the _Title_ and the _Link_ of the
+  article, then _Mark articles as read by id_ with its _Article id_.
+- **Too much to read**: device trigger _Unread articles_ of the FreshRSS
+  device above 100 → _Mark FreshRSS articles as read_ on the category
+  Uncategorized.
 
 ## Troubleshooting
 
-The integration logs everything it does: check the integration logs from the
-Gladys UI (or `docker logs` on the host) with `LOG_LEVEL=debug` for the full
-detail.
+- **"The API of FreshRSS is disabled"**: allow API access in Administration →
+  Authentication (an administrator of FreshRSS has to do it).
+- **"FreshRSS refused the user name or the API password"**: the API password is
+  not the login password; set it again in Profile → API management.
+- **"FreshRSS does not answer"**: check the address and the port from the
+  Gladys machine. Behind a reverse proxy, enter the full address, path
+  included.
+- **"This address does not answer like FreshRSS"**: the address leads to
+  another service, or to a login page (an authentication proxy in front of
+  FreshRSS must let `/api/` through).
+- **No "New article" event**: articles arrive when FreshRSS refreshes its feeds
+  (its cron job, `CRON_MIN` in the official Docker image; each feed at most
+  once per hour by default), then at the next read of the integration.
+- More details: set the `LOG_LEVEL` variable of the integration to `debug`.
+
+## Limits
+
+- FreshRSS knows categories by their name only: renaming a category in
+  FreshRSS offers a new device, the old one stays without values.
+- The API of FreshRSS does not tell the feeds in error, and cannot ask for a
+  refresh of the feeds: FreshRSS keeps its own schedule.
+- The trigger filters only compare exact values: the keyword filter is one of
+  the configured keywords.
+- Starred articles, labels and the feeds themselves are not managed from
+  Gladys. At most 100 categories and 200 feeds are offered as devices.
+- The widget links open https addresses only: an article or a FreshRSS on
+  plain http has no link.
+- Not affiliated with FreshRSS.

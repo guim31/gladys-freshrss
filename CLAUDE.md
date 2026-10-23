@@ -32,15 +32,20 @@ pushing.
 
 ```
 index.js                          SDK wiring only: handlers registered before connect()
-src/devices/index.js              registry of the device blueprints + dispatch helpers
-src/devices/<type>.js             one device type per file (buildDevice, onPoll, onSetValue...)
+src/app.js                        registers every SDK handler on the hub (shared with the tests)
+src/hub.js                        the link to FreshRSS: timer, devices, states, trigger, status, actions
+src/devices.js                    the account, category and feed devices, their states
+src/freshrss/client.js            Google Reader API (ClientLogin, action token T), errors by kind
+src/freshrss/model.js             entries and feeds -> plain values; entry ids, keywords
+src/store.js                      /data/freshrss-state.json: what the trigger already saw
 src/scenes.js                     scene action handlers (manifest `scene_actions`)
-src/widgets.js                    dashboard widget handlers (manifest `widgets`)
+src/widgets.js                    dashboard widget and its buttons (manifest `widgets`)
+src/texts.js                      every text produced by the container, in four languages
 src/config.js                     DEFAULT_CONFIG (mirrors the manifest defaults) + normalization
-src/weather.js                    example driver (Open-Meteo)
 gladys-assistant-integration.json manifest: name, config_schema, actions, image...
-docs/en.md, docs/fr.md            user documentation, re-hosted by Gladys (mandatory)
-test/                             node --test, against the SDK's fake Gladys (integration-sdk/testing)
+docs/{en,fr,de,es}.md             user documentation, re-hosted by Gladys (same sections)
+test/                             node --test, SDK fake Gladys + fake FreshRSS (test/helpers/)
+test/fixtures/freshrss/1.30.4/    bodies recorded on a real FreshRSS 1.30.4
 .github/scripts/release.mjs       release helpers (manifest bump, changelog), tested in test/
 ```
 
@@ -70,10 +75,54 @@ test/                             node --test, against the SDK's fake Gladys (in
   `type: "provider"`: 5.1.0). `test/manifest.test.js` ties the manifest to the
   code (defaults, action, scene and widget handlers): change both sides
   together.
-- **User-facing text** is bilingual (English and French): action messages,
-  manifest texts, and `docs/en.md` / `docs/fr.md`, kept in sync.
+- **User-facing text** exists in English, French, German and Spanish: action
+  messages, widget texts, feature names, manifest texts, and
+  `docs/{en,fr,de,es}.md`, kept in sync (`test/i18n.test.js`).
 - **Style.** Prettier formats, ESLint catches mistakes. Comments explain why,
   in English. Tests never touch the network.
+
+## FreshRSS
+
+- **Google Reader API** at `<base>/api/greader.php/`. It must be allowed by an
+  admin (Administration → Authentication, `api_enabled`); disabled, every call
+  answers **503 "Service Unavailable!"**. `POST accounts/ClientLogin`
+  (`Email`, `Passwd` = the **API password** of the user, set in Profile → API
+  management, not the login password) answers `SID=…\nLSID=null\nAuth=user/hash`;
+  the hash never expires (it changes with the API password). Other calls send
+  `Authorization: GoogleLogin auth=user/hash`. The client logs in once and
+  again on a 401.
+- Errors are plain text: 401 `Unauthorized!` (also for an unknown user), 400
+  `Bad Request!` (unknown route, unknown category, a user name with forbidden
+  characters at ClientLogin). Some JSON answers carry `text/html`.
+- Writes (`edit-tag`, `mark-all-as-read`) need the action token `T` of
+  `GET reader/api/0/token` (401 without it) and answer `OK`. An unknown entry id
+  or feed id is `OK` too; an unknown category is 400. `mark-all-as-read` with
+  `ts=0` marks everything up to now.
+- **Categories have no id**, only their name (`user/-/label/<name>`, names with
+  `&`, spaces or accents work in a path once percent-encoded). The device id
+  uses a 12-hex hash of the name: renaming a category creates a new device.
+  Feed titles may hold `＆` (FreshRSS replaces `&` in titles).
+- **Entry ids are the microsecond time FreshRSS stored them**: they only grow.
+  Decimal in `stream/items/ids`, 16 hex digits in the long form
+  `tag:google.com,2005:reader/item/<hex>` (which holds a comma: scene fields
+  take the decimal form only). Up to 19 digits: compared as BigInt; still a
+  safe JS integer today (the `entry_id` trigger variable is a number). `ot`
+  filters on the publication or modification date, not on the id: the trigger
+  asks `stream/items/ids` (50 newest) and keeps the ids above the last one seen,
+  then `POST stream/items/contents` for those only.
+- `subscription/list` tells no feed error, and nothing refreshes a feed: no
+  "feed in error" trigger, no "refresh" action (the widget button reads
+  FreshRSS again). A threshold on unread articles is the device trigger of
+  Gladys on the counter.
+- Testing with Docker: `freshrss/freshrss`, then `cli/do-install.php
+--api-enabled --db-type sqlite …`, `cli/create-user.php --api-password …`,
+  `cli/import-for-user.php` (OPML), `cli/actualize-user.php --user U` (add
+  `--feed-id N` to force a feed: otherwise its TTL, one hour, applies). FreshRSS
+  1.30 refuses to fetch private addresses: add the feed server to
+  `internal_host_allowlist` (`host:port`) in `data/config.php`. A change of
+  `data/config.php` (`api_enabled`) may take a few seconds (PHP opcache).
+- Tests on Node 22: the timer of `AbortSignal.timeout` does not hold the event
+  loop; a fake `fetch` that waits for the abort must hold it itself.
 
 ---
 

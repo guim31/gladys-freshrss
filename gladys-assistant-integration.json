@@ -1,177 +1,727 @@
 {
   "manifest_version": 1,
   "type": "device",
-  "name": "Demo Devices Template",
+  "name": "FreshRSS",
   "description": {
-    "en": "Starter template showing sensors, a switch, a dimmable light and a smart plug.",
-    "fr": "Template de démarrage : capteurs, interrupteur, lampe variable et prise connectée."
+    "en": "Your FreshRSS reader in Gladys: unread counts, new articles, mark as read.",
+    "fr": "Votre lecteur FreshRSS dans Gladys : non lus, nouveaux articles, marquer comme lu.",
+    "de": "Dein FreshRSS-Reader in Gladys: Ungelesene, neue Artikel, als gelesen markieren.",
+    "es": "Su lector FreshRSS en Gladys: no leídos, nuevos artículos, marcar como leído."
   },
   "version": "1.0.0",
-  "docker_image": "ghcr.io/gladysassistant/integration-template-js:1.0.0",
+  "docker_image": "ghcr.io/guim31/gladys-freshrss:1.0.0",
   "gladys_version": ">=5.1.0",
-  "cover_image": "https://raw.githubusercontent.com/GladysAssistant/integration-template-js/master/cover.png",
-  "categories": ["lighting", "security", "environment"],
+  "cover_image": "https://raw.githubusercontent.com/guim31/gladys-freshrss/main/cover.png",
+  "categories": ["services"],
   "transports": ["local", "cloud"],
   "config_schema": [
     {
       "key": "intro",
       "type": "section",
-      "label": { "en": "Getting started", "fr": "Pour commencer" },
+      "label": {
+        "en": "Connect FreshRSS",
+        "fr": "Connecter FreshRSS",
+        "de": "FreshRSS verbinden",
+        "es": "Conectar FreshRSS"
+      },
       "description": {
-        "en": "The demo weather station reads real data from the free Open-Meteo API: pick the coordinates to observe. No account, no API key.",
-        "fr": "La station météo de démonstration lit de vraies données via l'API gratuite Open-Meteo : choisissez les coordonnées à observer. Pas de compte, pas de clé d'API."
+        "en": "In FreshRSS, allow API access (Administration → Authentication), then set an API password for your user (Profile → API management). Enter the address of FreshRSS, your user name and that API password: the integration reads your unread counts, announces the new articles and marks articles as read from your scenes.",
+        "fr": "Dans FreshRSS, autorisez l'accès par l'API (Administration → Authentification), puis définissez un mot de passe d'API pour votre utilisateur (Profil → Gestion de l'API). Saisissez l'adresse de FreshRSS, votre nom d'utilisateur et ce mot de passe d'API : l'intégration lit vos non lus, annonce les nouveaux articles et marque des articles comme lus depuis vos scènes.",
+        "de": "Erlaube in FreshRSS den API-Zugriff (Administration → Authentifizierung) und lege dann ein API-Passwort für deinen Benutzer fest (Profil → API-Verwaltung). Gib die Adresse von FreshRSS, deinen Benutzernamen und dieses API-Passwort ein: Die Integration liest deine Ungelesenen, meldet neue Artikel und markiert Artikel aus deinen Szenen als gelesen.",
+        "es": "En FreshRSS, permita el acceso por API (Administración → Autenticación) y defina una contraseña de API para su usuario (Perfil → Gestión de la API). Introduzca la dirección de FreshRSS, su nombre de usuario y esa contraseña de API: la integración lee sus no leídos, anuncia los nuevos artículos y marca artículos como leídos desde sus escenas."
       },
       "links": [
         {
-          "url": "https://open-meteo.com/en/docs",
-          "label": { "en": "Open-Meteo documentation", "fr": "Documentation Open-Meteo" }
+          "url": "https://freshrss.github.io/FreshRSS/en/users/06_Mobile_access.html",
+          "label": {
+            "en": "FreshRSS: access from apps",
+            "fr": "FreshRSS : accès depuis les applications",
+            "de": "FreshRSS: Zugriff aus Apps",
+            "es": "FreshRSS: acceso desde aplicaciones"
+          }
         }
       ]
     },
     {
-      "key": "latitude",
-      "type": "number",
-      "label": { "en": "Latitude", "fr": "Latitude" },
-      "description": {
-        "en": "Latitude used for the demo weather sensor.",
-        "fr": "Latitude utilisée par le capteur météo de démonstration."
+      "key": "url",
+      "type": "string",
+      "label": {
+        "en": "FreshRSS address",
+        "fr": "Adresse de FreshRSS",
+        "de": "FreshRSS-Adresse",
+        "es": "Dirección de FreshRSS"
       },
-      "placeholder": { "en": "e.g. 48.8566", "fr": "ex. 48.8566" },
+      "placeholder": {
+        "en": "e.g. 192.168.1.50:8080",
+        "fr": "ex. 192.168.1.50:8080",
+        "de": "z. B. 192.168.1.50:8080",
+        "es": "p. ej. 192.168.1.50:8080"
+      },
       "required": true,
-      "default": 48.8566,
-      "min": -90,
-      "max": 90
+      "default": "",
+      "description": {
+        "en": "The address you open FreshRSS at, or the API address shown in Profile → API management.",
+        "fr": "L'adresse où vous ouvrez FreshRSS, ou l'adresse d'API affichée dans Profil → Gestion de l'API.",
+        "de": "Die Adresse, unter der du FreshRSS öffnest, oder die API-Adresse aus Profil → API-Verwaltung.",
+        "es": "La dirección donde abre FreshRSS, o la dirección de API mostrada en Perfil → Gestión de la API."
+      }
     },
     {
-      "key": "longitude",
-      "type": "number",
-      "label": { "en": "Longitude", "fr": "Longitude" },
-      "description": {
-        "en": "Longitude used for the demo weather sensor.",
-        "fr": "Longitude utilisée par le capteur météo de démonstration."
+      "key": "username",
+      "type": "string",
+      "label": {
+        "en": "User name",
+        "fr": "Nom d'utilisateur",
+        "de": "Benutzername",
+        "es": "Nombre de usuario"
       },
-      "placeholder": { "en": "e.g. 2.3522", "fr": "ex. 2.3522" },
+      "placeholder": {
+        "en": "e.g. alice",
+        "fr": "ex. alice",
+        "de": "z. B. alice",
+        "es": "p. ej. alice"
+      },
       "required": true,
-      "default": 2.3522,
-      "min": -180,
-      "max": 180
+      "default": ""
     },
     {
-      "key": "unit",
+      "key": "api_password",
+      "type": "secret",
+      "label": {
+        "en": "API password",
+        "fr": "Mot de passe d'API",
+        "de": "API-Passwort",
+        "es": "Contraseña de API"
+      },
+      "description": {
+        "en": "Not the login password: FreshRSS → Profile → API management → API password.",
+        "fr": "Pas le mot de passe de connexion : FreshRSS → Profil → Gestion de l'API → Mot de passe de l'API.",
+        "de": "Nicht das Anmeldepasswort: FreshRSS → Profil → API-Verwaltung → API-Passwort.",
+        "es": "No la contraseña de inicio de sesión: FreshRSS → Perfil → Gestión de la API → Contraseña de API."
+      },
+      "required": true
+    },
+    {
+      "key": "refresh_minutes",
       "type": "select",
-      "label": { "en": "Temperature unit", "fr": "Unité de température" },
+      "label": {
+        "en": "Read FreshRSS every",
+        "fr": "Lire FreshRSS toutes les",
+        "de": "FreshRSS lesen alle",
+        "es": "Leer FreshRSS cada"
+      },
+      "description": {
+        "en": "New articles are announced at the next read, once FreshRSS has fetched them (its own refresh, by its cron job).",
+        "fr": "Les nouveaux articles sont annoncés à la lecture suivante, une fois récupérés par FreshRSS (sa propre actualisation, par sa tâche cron).",
+        "de": "Neue Artikel werden beim nächsten Lesen gemeldet, sobald FreshRSS sie abgerufen hat (seine eigene Aktualisierung per Cronjob).",
+        "es": "Los nuevos artículos se anuncian en la siguiente lectura, una vez que FreshRSS los ha obtenido (su propia actualización, por su tarea cron)."
+      },
       "required": false,
-      "default": "celsius",
+      "default": "5",
       "options": [
-        { "value": "celsius", "label": { "en": "Celsius", "fr": "Celsius" } },
-        { "value": "fahrenheit", "label": { "en": "Fahrenheit", "fr": "Fahrenheit" } }
+        {
+          "value": "1",
+          "label": {
+            "en": "1 minute",
+            "fr": "1 minute",
+            "de": "1 Minute",
+            "es": "1 minuto"
+          }
+        },
+        {
+          "value": "5",
+          "label": {
+            "en": "5 minutes",
+            "fr": "5 minutes",
+            "de": "5 Minuten",
+            "es": "5 minutos"
+          }
+        },
+        {
+          "value": "15",
+          "label": {
+            "en": "15 minutes",
+            "fr": "15 minutes",
+            "de": "15 Minuten",
+            "es": "15 minutos"
+          }
+        },
+        {
+          "value": "30",
+          "label": {
+            "en": "30 minutes",
+            "fr": "30 minutes",
+            "de": "30 Minuten",
+            "es": "30 minutos"
+          }
+        },
+        {
+          "value": "60",
+          "label": {
+            "en": "60 minutes",
+            "fr": "60 minutes",
+            "de": "60 Minuten",
+            "es": "60 minutos"
+          }
+        }
       ]
     },
     {
-      "key": "poll_frequency",
-      "type": "number",
-      "label": { "en": "Refresh interval (s)", "fr": "Intervalle de rafraîchissement (s)" },
+      "key": "keywords",
+      "type": "string",
+      "label": {
+        "en": "Keywords to watch (optional)",
+        "fr": "Mots-clés à surveiller (facultatif)",
+        "de": "Zu beobachtende Stichwörter (optional)",
+        "es": "Palabras clave a vigilar (opcional)"
+      },
+      "placeholder": {
+        "en": "e.g. Gladys, Zigbee",
+        "fr": "ex. Gladys, Zigbee",
+        "de": "z. B. Gladys, Zigbee",
+        "es": "p. ej. Gladys, Zigbee"
+      },
       "description": {
-        "en": "How often sensors are polled, in seconds (one minute minimum).",
-        "fr": "Fréquence d'interrogation des capteurs, en secondes (une minute minimum)."
+        "en": "Separated by commas. A new article whose title holds one carries it, for the keyword filter of the trigger.",
+        "fr": "Séparés par des virgules. Un nouvel article dont le titre en contient un le porte, pour le filtre mot-clé du déclencheur.",
+        "de": "Durch Kommas getrennt. Ein neuer Artikel, dessen Titel eines enthält, trägt es für den Stichwortfilter des Auslösers.",
+        "es": "Separadas por comas. Un nuevo artículo cuyo título contenga una la lleva, para el filtro de palabra clave del disparador."
       },
       "required": false,
-      "default": 300,
-      "min": 60,
-      "max": 3600
+      "default": ""
+    },
+    {
+      "key": "language",
+      "type": "select",
+      "label": {
+        "en": "Language of names and messages",
+        "fr": "Langue des noms et messages",
+        "de": "Sprache der Namen und Meldungen",
+        "es": "Idioma de nombres y mensajes"
+      },
+      "description": {
+        "en": "Feature names are set when a device is added to Gladys.",
+        "fr": "Les noms des fonctionnalités sont fixés à l'ajout d'un appareil dans Gladys.",
+        "de": "Die Namen der Funktionen werden beim Hinzufügen eines Geräts zu Gladys festgelegt.",
+        "es": "Los nombres de las funciones se fijan al añadir un dispositivo a Gladys."
+      },
+      "required": false,
+      "default": "fr",
+      "options": [
+        {
+          "value": "en",
+          "label": {
+            "en": "English",
+            "fr": "Anglais",
+            "de": "Englisch",
+            "es": "Inglés"
+          }
+        },
+        {
+          "value": "fr",
+          "label": {
+            "en": "French",
+            "fr": "Français",
+            "de": "Französisch",
+            "es": "Francés"
+          }
+        },
+        {
+          "value": "de",
+          "label": {
+            "en": "German",
+            "fr": "Allemand",
+            "de": "Deutsch",
+            "es": "Alemán"
+          }
+        },
+        {
+          "value": "es",
+          "label": {
+            "en": "Spanish",
+            "fr": "Espagnol",
+            "de": "Spanisch",
+            "es": "Español"
+          }
+        }
+      ]
     }
   ],
   "actions": [
     {
-      "key": "test_weather",
-      "label": { "en": "Test the weather provider", "fr": "Tester le fournisseur météo" },
+      "key": "test_connection",
+      "label": {
+        "en": "Test the connection",
+        "fr": "Tester la connexion",
+        "de": "Verbindung testen",
+        "es": "Probar la conexión"
+      },
       "timeout_seconds": 30
-    },
-    {
-      "key": "identify",
-      "label": { "en": "Identify a device", "fr": "Identifier un appareil" },
-      "fields": [
-        {
-          "key": "device",
-          "type": "select",
-          "source": "devices",
-          "label": { "en": "Device", "fr": "Appareil" },
-          "required": true
-        }
-      ]
     }
   ],
   "scene_triggers": [
     {
-      "key": "motion_detected",
-      "label": { "en": "Motion detected", "fr": "Mouvement détecté" },
+      "key": "new_entry",
+      "label": {
+        "en": "New article",
+        "fr": "Nouvel article",
+        "de": "Neuer Artikel",
+        "es": "Nuevo artículo"
+      },
       "description": {
-        "en": "A demo motion sensor saw a person or an animal move.",
-        "fr": "Un détecteur de démonstration a vu bouger une personne ou un animal."
+        "en": "An unread article arrived in FreshRSS (not at the first read, nor the backlog of a feed just added).",
+        "fr": "Un article non lu est arrivé dans FreshRSS (ni à la première lecture, ni l'historique d'un flux ajouté).",
+        "de": "Ein ungelesener Artikel ist in FreshRSS angekommen (nicht beim ersten Lesen, nicht der Bestand eines neuen Feeds).",
+        "es": "Ha llegado un artículo no leído a FreshRSS (ni en la primera lectura, ni el historial de una fuente recién añadida)."
       },
       "fields": [
         {
-          "key": "device",
+          "key": "category",
           "type": "select",
           "source": "devices",
-          "label": { "en": "Sensor", "fr": "Détecteur" }
+          "required": false,
+          "label": {
+            "en": "Category (empty: all)",
+            "fr": "Catégorie (vide : toutes)",
+            "de": "Kategorie (leer: alle)",
+            "es": "Categoría (vacío: todas)"
+          },
+          "description": {
+            "en": "A category added as a device in Gladys.",
+            "fr": "Une catégorie ajoutée comme appareil dans Gladys.",
+            "de": "Eine als Gerät zu Gladys hinzugefügte Kategorie.",
+            "es": "Una categoría añadida como dispositivo en Gladys."
+          }
         },
         {
-          "key": "target",
-          "type": "multi_select",
-          "label": { "en": "What moved", "fr": "Ce qui a bougé" },
-          "options": [
-            { "value": "person", "label": { "en": "Person", "fr": "Personne" } },
-            { "value": "animal", "label": { "en": "Animal", "fr": "Animal" } }
-          ]
+          "key": "feed",
+          "type": "select",
+          "source": "devices",
+          "required": false,
+          "label": {
+            "en": "Feed (empty: all)",
+            "fr": "Flux (vide : tous)",
+            "de": "Feed (leer: alle)",
+            "es": "Fuente (vacío: todas)"
+          },
+          "description": {
+            "en": "A feed added as a device in Gladys.",
+            "fr": "Un flux ajouté comme appareil dans Gladys.",
+            "de": "Ein als Gerät zu Gladys hinzugefügter Feed.",
+            "es": "Una fuente añadida como dispositivo en Gladys."
+          }
+        },
+        {
+          "key": "keyword",
+          "type": "string",
+          "required": false,
+          "label": {
+            "en": "Keyword in the title (empty: any)",
+            "fr": "Mot-clé du titre (vide : tous)",
+            "de": "Stichwort im Titel (leer: alle)",
+            "es": "Palabra clave del título (vacío: todas)"
+          },
+          "description": {
+            "en": "One of the keywords of the configuration.",
+            "fr": "Un des mots-clés de la configuration.",
+            "de": "Eines der Stichwörter der Konfiguration.",
+            "es": "Una de las palabras clave de la configuración."
+          }
         }
       ],
       "variables": [
         {
-          "key": "target",
+          "key": "title",
           "type": "string",
-          "label": { "en": "What moved", "fr": "Ce qui a bougé" }
+          "label": {
+            "en": "Title",
+            "fr": "Titre",
+            "de": "Titel",
+            "es": "Título"
+          }
+        },
+        {
+          "key": "url",
+          "type": "string",
+          "label": {
+            "en": "Link",
+            "fr": "Lien",
+            "de": "Link",
+            "es": "Enlace"
+          }
+        },
+        {
+          "key": "feed_name",
+          "type": "string",
+          "label": {
+            "en": "Feed",
+            "fr": "Flux",
+            "de": "Feed",
+            "es": "Fuente"
+          }
+        },
+        {
+          "key": "category_name",
+          "type": "string",
+          "label": {
+            "en": "Category",
+            "fr": "Catégorie",
+            "de": "Kategorie",
+            "es": "Categoría"
+          }
+        },
+        {
+          "key": "author",
+          "type": "string",
+          "label": {
+            "en": "Author",
+            "fr": "Auteur",
+            "de": "Autor",
+            "es": "Autor"
+          }
+        },
+        {
+          "key": "keyword",
+          "type": "string",
+          "label": {
+            "en": "Keyword found",
+            "fr": "Mot-clé trouvé",
+            "de": "Gefundenes Stichwort",
+            "es": "Palabra clave encontrada"
+          }
+        },
+        {
+          "key": "published",
+          "type": "string",
+          "label": {
+            "en": "Published at (ISO)",
+            "fr": "Publié le (ISO)",
+            "de": "Veröffentlicht am (ISO)",
+            "es": "Publicado el (ISO)"
+          }
+        },
+        {
+          "key": "entry_id",
+          "type": "number",
+          "label": {
+            "en": "Article id",
+            "fr": "Identifiant de l'article",
+            "de": "Artikel-ID",
+            "es": "Id. del artículo"
+          }
         }
       ]
     }
   ],
   "scene_actions": [
     {
-      "key": "identify_device",
-      "label": { "en": "Identify a device", "fr": "Identifier un appareil" },
-      "description": {
-        "en": "Make a device signal itself (the demo light blinks).",
-        "fr": "Fait se signaler un appareil (la lampe de démonstration clignote)."
+      "key": "mark_all_read",
+      "label": {
+        "en": "Mark FreshRSS articles as read",
+        "fr": "Marquer des articles FreshRSS comme lus",
+        "de": "FreshRSS-Artikel als gelesen markieren",
+        "es": "Marcar artículos de FreshRSS como leídos"
       },
-      "timeout_seconds": 15,
+      "description": {
+        "en": "Marks every unread article of a category or a feed as read; the FreshRSS device: everything.",
+        "fr": "Marque comme lus tous les articles non lus d'une catégorie ou d'un flux ; l'appareil FreshRSS : tout.",
+        "de": "Markiert alle ungelesenen Artikel einer Kategorie oder eines Feeds als gelesen; das FreshRSS-Gerät: alles.",
+        "es": "Marca como leídos todos los artículos no leídos de una categoría o fuente; el dispositivo FreshRSS: todo."
+      },
+      "timeout_seconds": 30,
       "fields": [
         {
-          "key": "device",
+          "key": "source",
           "type": "select",
           "source": "devices",
-          "label": { "en": "Device", "fr": "Appareil" },
-          "required": true
+          "required": true,
+          "label": {
+            "en": "Category, feed or FreshRSS",
+            "fr": "Catégorie, flux ou FreshRSS",
+            "de": "Kategorie, Feed oder FreshRSS",
+            "es": "Categoría, fuente o FreshRSS"
+          },
+          "description": {
+            "en": "A category or a feed added as a device, or the FreshRSS device for everything.",
+            "fr": "Une catégorie ou un flux ajouté comme appareil, ou l'appareil FreshRSS pour tout.",
+            "de": "Eine Kategorie oder ein Feed als Gerät, oder das FreshRSS-Gerät für alles.",
+            "es": "Una categoría o fuente añadida como dispositivo, o el dispositivo FreshRSS para todo."
+          }
         }
       ],
       "outputs": [
         {
-          "key": "signalled",
+          "key": "count",
+          "type": "number",
+          "label": {
+            "en": "Articles marked as read",
+            "fr": "Articles marqués comme lus",
+            "de": "Als gelesen markierte Artikel",
+            "es": "Artículos marcados como leídos"
+          }
+        },
+        {
+          "key": "name",
+          "type": "string",
+          "label": {
+            "en": "Category or feed",
+            "fr": "Catégorie ou flux",
+            "de": "Kategorie oder Feed",
+            "es": "Categoría o fuente"
+          }
+        }
+      ]
+    },
+    {
+      "key": "mark_entries_read",
+      "label": {
+        "en": "Mark articles as read by id",
+        "fr": "Marquer des articles comme lus par identifiant",
+        "de": "Artikel per ID als gelesen markieren",
+        "es": "Marcar artículos como leídos por id."
+      },
+      "description": {
+        "en": "Marks one or more articles as read, e.g. the article id of the New article trigger.",
+        "fr": "Marque un ou plusieurs articles comme lus, par exemple l'identifiant donné par le déclencheur Nouvel article.",
+        "de": "Markiert einen oder mehrere Artikel als gelesen, z. B. die Artikel-ID des Auslösers Neuer Artikel.",
+        "es": "Marca uno o varios artículos como leídos, p. ej. el id. del artículo del disparador Nuevo artículo."
+      },
+      "timeout_seconds": 30,
+      "fields": [
+        {
+          "key": "entry_ids",
+          "type": "string",
+          "required": true,
+          "label": {
+            "en": "Article ids",
+            "fr": "Identifiants d'articles",
+            "de": "Artikel-IDs",
+            "es": "Ids. de artículos"
+          },
+          "placeholder": {
+            "en": "e.g. 1792796929172923",
+            "fr": "ex. 1792796929172923",
+            "de": "z. B. 1792796929172923",
+            "es": "p. ej. 1792796929172923"
+          },
+          "description": {
+            "en": "Separated by commas; insert the article id of the trigger.",
+            "fr": "Séparés par des virgules ; insérez l'identifiant de l'article du déclencheur.",
+            "de": "Durch Kommas getrennt; füge die Artikel-ID des Auslösers ein.",
+            "es": "Separados por comas; inserte el id. del artículo del disparador."
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "key": "count",
+          "type": "number",
+          "label": {
+            "en": "Articles marked as read",
+            "fr": "Articles marqués comme lus",
+            "de": "Als gelesen markierte Artikel",
+            "es": "Artículos marcados como leídos"
+          }
+        }
+      ]
+    },
+    {
+      "key": "read_unread",
+      "label": {
+        "en": "Read the unread FreshRSS titles",
+        "fr": "Lire les titres non lus de FreshRSS",
+        "de": "Ungelesene FreshRSS-Titel lesen",
+        "es": "Leer los títulos no leídos de FreshRSS"
+      },
+      "description": {
+        "en": "Reads the newest unread articles, of everything or of a category or feed, to send them in a message.",
+        "fr": "Lit les articles non lus les plus récents, de tout ou d'une catégorie ou d'un flux, pour les envoyer dans un message.",
+        "de": "Liest die neuesten ungelesenen Artikel, aller oder einer Kategorie oder eines Feeds, um sie in einer Nachricht zu senden.",
+        "es": "Lee los artículos no leídos más recientes, de todo o de una categoría o fuente, para enviarlos en un mensaje."
+      },
+      "timeout_seconds": 30,
+      "fields": [
+        {
+          "key": "source",
+          "type": "select",
+          "source": "devices",
+          "required": false,
+          "label": {
+            "en": "Category or feed (empty: all)",
+            "fr": "Catégorie ou flux (vide : tout)",
+            "de": "Kategorie oder Feed (leer: alle)",
+            "es": "Categoría o fuente (vacío: todo)"
+          },
+          "description": {
+            "en": "A category or a feed added as a device in Gladys.",
+            "fr": "Une catégorie ou un flux ajouté comme appareil dans Gladys.",
+            "de": "Eine Kategorie oder ein Feed, als Gerät zu Gladys hinzugefügt.",
+            "es": "Una categoría o una fuente añadida como dispositivo en Gladys."
+          }
+        },
+        {
+          "key": "count",
+          "type": "select",
+          "required": false,
+          "default": "5",
+          "label": {
+            "en": "Number of articles",
+            "fr": "Nombre d'articles",
+            "de": "Anzahl der Artikel",
+            "es": "Número de artículos"
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": {
+                "en": "1",
+                "fr": "1",
+                "de": "1",
+                "es": "1"
+              }
+            },
+            {
+              "value": "3",
+              "label": {
+                "en": "3",
+                "fr": "3",
+                "de": "3",
+                "es": "3"
+              }
+            },
+            {
+              "value": "5",
+              "label": {
+                "en": "5",
+                "fr": "5",
+                "de": "5",
+                "es": "5"
+              }
+            },
+            {
+              "value": "10",
+              "label": {
+                "en": "10",
+                "fr": "10",
+                "de": "10",
+                "es": "10"
+              }
+            }
+          ]
+        },
+        {
+          "key": "mark_read",
           "type": "boolean",
-          "label": { "en": "Device signalled", "fr": "Appareil signalé" }
+          "required": false,
+          "label": {
+            "en": "Then mark them as read",
+            "fr": "Puis les marquer comme lus",
+            "de": "Danach als gelesen markieren",
+            "es": "Después marcarlos como leídos"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "key": "count",
+          "type": "number",
+          "label": {
+            "en": "Articles read",
+            "fr": "Articles lus",
+            "de": "Gelesene Artikel",
+            "es": "Artículos leídos"
+          }
+        },
+        {
+          "key": "unread",
+          "type": "number",
+          "label": {
+            "en": "Unread articles in all",
+            "fr": "Articles non lus en tout",
+            "de": "Ungelesene Artikel insgesamt",
+            "es": "Artículos no leídos en total"
+          }
+        },
+        {
+          "key": "titles",
+          "type": "string",
+          "label": {
+            "en": "Titles, one per line",
+            "fr": "Titres, un par ligne",
+            "de": "Titel, einer pro Zeile",
+            "es": "Títulos, uno por línea"
+          }
+        },
+        {
+          "key": "latest_title",
+          "type": "string",
+          "label": {
+            "en": "Title of the newest article",
+            "fr": "Titre de l'article le plus récent",
+            "de": "Titel des neuesten Artikels",
+            "es": "Título del artículo más reciente"
+          }
+        },
+        {
+          "key": "latest_url",
+          "type": "string",
+          "label": {
+            "en": "Link of the newest article",
+            "fr": "Lien de l'article le plus récent",
+            "de": "Link des neuesten Artikels",
+            "es": "Enlace del artículo más reciente"
+          }
+        },
+        {
+          "key": "latest_feed",
+          "type": "string",
+          "label": {
+            "en": "Feed of the newest article",
+            "fr": "Flux de l'article le plus récent",
+            "de": "Feed des neuesten Artikels",
+            "es": "Fuente del artículo más reciente"
+          }
         }
       ]
     }
   ],
   "widgets": [
     {
-      "key": "demo_status",
-      "label": { "en": "Demo status", "fr": "État de la démo" },
-      "description": {
-        "en": "Live temperature and plug power, plug connection and observed location.",
-        "fr": "Température et puissance en direct, connexion de la prise, position observée."
+      "key": "unread",
+      "label": {
+        "en": "FreshRSS",
+        "fr": "FreshRSS",
+        "de": "FreshRSS",
+        "es": "FreshRSS"
       },
-      "icon": "activity",
-      "action_timeout_seconds": 15
+      "description": {
+        "en": "The newest unread articles, with refresh and mark as read buttons.",
+        "fr": "Les derniers articles non lus, avec boutons actualiser et marquer lu.",
+        "de": "Die neuesten ungelesenen Artikel, mit Tasten Aktualisieren und Gelesen.",
+        "es": "Los últimos artículos no leídos, con botones actualizar y marcar leído."
+      },
+      "icon": "rss",
+      "action_timeout_seconds": 30,
+      "settings": [
+        {
+          "key": "source",
+          "type": "select",
+          "source": "devices",
+          "required": false,
+          "label": {
+            "en": "Category or feed (empty: all)",
+            "fr": "Catégorie ou flux (vide : tout)",
+            "de": "Kategorie oder Feed (leer: alle)",
+            "es": "Categoría o fuente (vacío: todo)"
+          },
+          "description": {
+            "en": "Pick a category or a feed added as a device to show it alone.",
+            "fr": "Choisissez une catégorie ou un flux ajouté comme appareil pour l'afficher seul.",
+            "de": "Wähle eine Kategorie oder einen Feed, als Gerät hinzugefügt, um nur sie anzuzeigen.",
+            "es": "Elija una categoría o fuente añadida como dispositivo para mostrarla sola."
+          }
+        }
+      ]
     }
   ]
 }

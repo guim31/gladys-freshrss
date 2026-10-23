@@ -1,67 +1,136 @@
-# Template de démonstration
+# FreshRSS
 
-Ceci est la documentation utilisateur de l'intégration. Gladys ré-héberge ce
-fichier et affiche un lien **Documentation** permanent vers lui dans l'écran
-de configuration (dans la langue de l'utilisateur, avec l'anglais en repli) —
-c'est au moment de configurer que l'utilisateur en a le plus besoin. Gardez
-les courtes indications d'accueil dans les blocs `section` du `config_schema`
-du manifest ; mettez ici le pas-à-pas détaillé (captures d'écran, dépannage…).
+Reliez Gladys à [FreshRSS](https://freshrss.org), l'agrégateur de flux
+auto-hébergé : suivez vos articles non lus par catégorie et par flux, réagissez
+à l'arrivée d'un nouvel article, marquez des articles comme lus depuis vos
+scènes et affichez les derniers articles non lus sur le tableau de bord.
+L'intégration suit l'état de votre lecteur (lu / non lu, le même dans toutes
+vos applications FreshRSS), pas les flux eux-mêmes.
 
-## Ce que vous obtenez
+Testée contre un vrai FreshRSS 1.30.4 (l'image Docker officielle) avec des flux
+de test. Vos retours sont les bienvenus sur le forum Gladys.
 
-Six appareils de démonstration apparaissent après l'installation : une
-station météo (vraies données Open-Meteo), un interrupteur, une lampe
-variable, une prise connectée avec mesure de puissance, un détecteur de
-mouvement et une caméra.
+## Prérequis
+
+- Gladys Assistant 5.1 ou plus récent.
+- FreshRSS, chez vous ou sur un serveur public, joignable depuis la machine de
+  Gladys.
+- L'API de FreshRSS autorisée : en administrateur, ouvrez **Administration →
+  Authentification** et cochez **Autoriser l'accès par API**.
+- Un mot de passe d'API pour votre utilisateur : ouvrez **Profil → Gestion de
+  l'API**, saisissez un **mot de passe de l'API** et enregistrez. Ce n'est pas
+  votre mot de passe de connexion ; FreshRSS affiche l'adresse de l'API sur la
+  même page.
 
 ## Configuration
 
 1. Ouvrez l'onglet **Configuration** de l'intégration.
-2. Renseignez la **latitude** et la **longitude** que la station météo de
-   démonstration doit observer (Paris par défaut), et choisissez votre unité
-   de température. L'**intervalle de rafraîchissement** règle la fréquence
-   de lecture de la station météo et de la puissance de la prise : toutes
-   les 5 minutes par défaut, toutes les minutes au plus.
-3. Enregistrez : les appareils apparaissent dans l'onglet **Découverte**,
-   prêts à être ajoutés.
+2. Dans **Adresse de FreshRSS**, saisissez l'adresse où vous ouvrez FreshRSS,
+   par exemple `192.168.1.50:8080` (http si rien n'est précisé) ou
+   `https://rss.example.org`. L'adresse d'API affichée par FreshRSS
+   (`…/api/greader.php`) fonctionne aussi.
+3. Saisissez votre **Nom d'utilisateur** et le **Mot de passe d'API**.
+4. Facultatif : **Lire FreshRSS toutes les** (5 minutes par défaut), et
+   **Mots-clés à surveiller**, séparés par des virgules, pour le filtre
+   mot-clé du déclencheur « Nouvel article ».
+5. Cliquez sur **Tester la connexion** : elle affiche l'utilisateur, les
+   articles non lus, les flux et les catégories.
+6. Ouvrez l'onglet **Découverte** et ajoutez les appareils voulus.
 
-Le réglage **Préférer la connexion locale** pilote la prise de
-démonstration : elle affiche en badge le canal réellement utilisé (local ou
-cloud), avec un point orange quand elle fonctionne en mode dégradé (local
-refusé, bascule cloud).
+## Appareils
 
-## Actions
+- **FreshRSS** : _Articles non lus_ (en tout) et _FreshRSS joignable_ (0 tant
+  que FreshRSS ne répond pas).
+- **Un appareil par catégorie** et **un appareil par flux** (proposés pour
+  chacun) : leurs _Articles non lus_.
 
-- **Tester le fournisseur météo** — effectue une requête en direct vers
-  Open-Meteo et affiche la température et l'humidité actuelles sous le
-  bouton.
-- **Identifier un appareil** — choisissez un de vos appareils dans la liste
-  et il se signale (la lampe de démonstration « clignote » dans les logs).
+Les valeurs sont lues toutes les quelques minutes (le réglage ci-dessus) et
+juste après chaque modification faite depuis Gladys. Elles sont gardées dans
+l'historique, pour un graphique de votre pile de non lus. Pour agir au-delà
+d'un seuil, utilisez le déclencheur d'appareil de Gladys : _Articles non lus_
+supérieur à 50, par exemple.
 
-## Scènes
+## Widget du tableau de bord
 
-L'intégration ajoute ses propres cartes à l'éditeur de scènes (Gladys 5.1
-ou plus récent), dans la catégorie **Intégrations** :
+**FreshRSS** : le nombre d'articles non lus, les six derniers articles non lus
+(flux, date, résumé, liens vers l'article et vers le flux dans FreshRSS
+lorsqu'ils sont en https), un bouton **Actualiser** qui relit FreshRSS tout de
+suite, et un bouton **Marquer lu**, avec confirmation, qui marque comme lus les
+articles affichés (eux seuls). Réglé sur un appareil catégorie ou flux, le
+widget n'affiche que celui-ci.
 
-- **Mouvement détecté** (déclencheur) — lance la scène quand un détecteur
-  de démonstration voit bouger quelque chose. Choisissez éventuellement le
-  détecteur et ce qui a bougé (personne, animal) ; laissés vides, toute
-  détection correspond. Les actions suivantes peuvent lire ce qui a bougé
-  avec `{{triggerEvent.data.target}}`.
-- **Identifier un appareil** (action) — fait se signaler l'appareil choisi.
-  Elle indique si l'appareil a pu se signaler, pour que les actions
-  suivantes puissent en dépendre.
+## Déclencheurs de scène
 
-## Tableau de bord
+- **Nouvel article** : un article non lu est arrivé dans FreshRSS. Filtres :
+  une catégorie (un appareil catégorie), un flux (un appareil flux), un
+  mot-clé (un des mots-clés de la configuration, trouvé dans le titre, sans
+  tenir compte de la casse ni des accents). Informations transmises : titre,
+  lien, flux, catégorie, auteur, mot-clé trouvé, date de publication et
+  identifiant de l'article.
 
-Ajoutez le widget **État de la démo** à un tableau de bord : il affiche en
-direct la température de la station météo et la puissance de la prise du
-bureau, la connexion utilisée par la prise (en orange si dégradée) et la
-position observée. Son bouton **Identifier la lampe** fait se signaler la
-lampe de démonstration.
+Rien ne se déclenche à la première lecture après l'installation de
+l'intégration, ni pour les articles déjà présents quand un flux est ajouté, ni
+pour les articles déjà lus dans une autre application. Au plus 10 articles
+sont annoncés par lecture.
+
+## Actions de scène
+
+- **Marquer des articles FreshRSS comme lus** : tous les articles non lus d'une
+  catégorie ou d'un flux ; choisissez l'appareil FreshRSS pour tout marquer.
+  Résultats : articles marqués, catégorie ou flux.
+- **Marquer des articles comme lus par identifiant** : un ou plusieurs
+  identifiants d'articles, typiquement l'identifiant de l'article du
+  déclencheur « Nouvel article ». Résultat : articles marqués.
+- **Lire les titres non lus de FreshRSS** : les articles non lus les plus
+  récents (1 à 10), de tout ou d'une catégorie ou d'un flux, éventuellement
+  marqués comme lus ensuite. Résultats : nombre lu, articles non lus en tout,
+  titres un par ligne (« Titre — Flux »), titre, lien et flux du plus récent.
+
+## Exemples de scènes
+
+- **Revue de presse du matin** : à 7 h 30, _Lire les titres non lus de
+  FreshRSS_ (catégorie Actualités, 5 articles, puis les marquer comme lus),
+  puis envoyer un message Telegram avec son résultat _Titres_ (à insérer avec
+  le sélecteur de variables).
+- **Surveiller un sujet** : avec `Gladys` dans les mots-clés, _Nouvel article_
+  avec le mot-clé `Gladys` → envoyer un message avec le _Titre_ et le _Lien_
+  de l'article, puis _Marquer des articles comme lus par identifiant_ avec son
+  _Identifiant de l'article_.
+- **Trop de lecture** : déclencheur d'appareil _Articles non lus_ de l'appareil
+  FreshRSS supérieur à 100 → _Marquer des articles FreshRSS comme lus_ sur la
+  catégorie Sans catégorie.
 
 ## Dépannage
 
-L'intégration journalise tout ce qu'elle fait : consultez les logs de
-l'intégration depuis l'interface Gladys (ou `docker logs` sur l'hôte) avec
-`LOG_LEVEL=debug` pour le détail complet.
+- **« L'API de FreshRSS est désactivée »** : autorisez l'accès par l'API dans
+  Administration → Authentification (un administrateur de FreshRSS doit le
+  faire).
+- **« FreshRSS a refusé le nom d'utilisateur ou le mot de passe d'API »** : le
+  mot de passe d'API n'est pas le mot de passe de connexion ; définissez-le à
+  nouveau dans Profil → Gestion de l'API.
+- **« FreshRSS ne répond pas »** : vérifiez l'adresse et le port depuis la
+  machine de Gladys. Derrière un proxy inverse, saisissez l'adresse complète,
+  chemin compris.
+- **« Cette adresse ne répond pas comme FreshRSS »** : l'adresse mène à un
+  autre service, ou à une page de connexion (un proxy d'authentification
+  devant FreshRSS doit laisser passer `/api/`).
+- **Pas d'événement « Nouvel article »** : les articles arrivent quand FreshRSS
+  actualise ses flux (sa tâche cron, `CRON_MIN` dans l'image Docker
+  officielle ; chaque flux au plus une fois par heure par défaut), puis à la
+  lecture suivante de l'intégration.
+- Plus de détails : réglez la variable `LOG_LEVEL` de l'intégration sur
+  `debug`.
+
+## Limites
+
+- FreshRSS ne connaît les catégories que par leur nom : renommer une catégorie
+  dans FreshRSS propose un nouvel appareil, l'ancien reste sans valeurs.
+- L'API de FreshRSS n'indique pas les flux en erreur et ne permet pas de
+  demander l'actualisation des flux : FreshRSS garde son propre rythme.
+- Les filtres des déclencheurs ne comparent que des valeurs exactes : le filtre
+  mot-clé est un des mots-clés configurés.
+- Les favoris, les étiquettes et les flux eux-mêmes ne se gèrent pas depuis
+  Gladys. Au plus 100 catégories et 200 flux sont proposés comme appareils.
+- Les liens du widget n'ouvrent que des adresses https : un article ou un
+  FreshRSS en http simple n'a pas de lien.
+- Sans lien avec FreshRSS.

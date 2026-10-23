@@ -1,8 +1,8 @@
 {
-  "name": "gladys-integration-template-js",
+  "name": "gladys-freshrss",
   "version": "1.0.0",
   "private": true,
-  "description": "Official starter template to build an external integration for Gladys Assistant with the JavaScript SDK.",
+  "description": "FreshRSS integration for Gladys Assistant: unread counts, new articles, and articles marked as read from scenes.",
   "type": "module",
   "main": "index.js",
   "scripts": {

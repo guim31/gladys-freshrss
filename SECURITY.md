@@ -30,6 +30,16 @@ Gladys before reporting a problem.
 
 In scope: the code of this repository and the Docker image it publishes.
 
+The integration stores the FreshRSS address, the user name and the API
+password in the configuration of Gladys (the password is a `secret` field,
+never sent back to the browser) and, under `/data/freshrss-state.json`, only
+the ids it needs for its trigger (user name, last article id seen, feed ids).
+The login token FreshRSS answers stays in memory. It never logs the API
+password, the token, the feed URLs or the articles. It talks to the FreshRSS
+address you enter, and to nothing else. The API password gives read and write
+access to the FreshRSS account through its API (not to the web interface).
+
 Out of scope: Gladys Assistant itself (see its
 [security policy](https://github.com/GladysAssistant/Gladys/security/policy)),
-and the third-party services and devices the integration talks to.
+and FreshRSS itself (see its
+[security policy](https://github.com/FreshRSS/FreshRSS/security/policy)).
